@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
+    <!-- ฟ้อน -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;900&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            background-color: hsla(180, 52%, 17%, 0.4);
+        }
+
+
+        #image {
+            display: none;
+        }
+
+        .logo {
+            position: absolute;
+            top: 8px;
+            right: 16px;
+        }
+    
+    </style>
+
+
+    <script>
+        function body_load() {
+            const url = " http://localhost:3000/user";
+
+            fetch(url, { method: "GET" })
+                .then((r) => { return r.json() })
+                .then((res) => {
+                    console.log(res)
+
+                    var table = document.getElementById("tblData");
+
+                    table.innerHTML = "";
+
+                    for (var i = 0; i < res.length; i++) {
+                        var row = table.insertRow();
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+                        var cell6 = row.insertCell(5);
+                        var cell7 = row.insertCell(6);
+                        var cell8 = row.insertCell(7);
+                        var cell9 = row.insertCell(8);
+                        var cell10 = row.insertCell(9);
+                        var cell11 = row.insertCell(10);
+                        const item = res[i];
+                        cell1.innerHTML = item.id;
+                        cell2.innerHTML = item.name;
+                        cell3.innerHTML = item.email;
+                        cell4.innerHTML = item.tel;
+                        cell5.innerHTML = item.checkin;
+                        cell6.innerHTML = item.checkout;
+                        cell7.innerHTML = item.location;
+                        cell8.innerHTML = item.guests;
+                        cell9.innerHTML = item.tent;
+                        cell10.innerHTML = item.tent_size;
+                        cell11.innerHTML = "<button class='btn btn-danger' onclick='item_dele(" + item.id + ")'>Delete</button>"
+                            + " <button class='btn btn-secondary' onclick='item_edit(" + item.id + ")'>Edit</button>"
+                    }
+                });
+        }
+        /*
+                window.addEventListener("load", (event) => {
+                    console.log("page is fully loaded");
+                });
+        */
+
+        function btn_add_click() {
+            alert("Your Booking Success")
+            const data = {
+                "name": document.getElementById('name').value,
+                "email": document.getElementById('email').value,
+                "tel": document.getElementById('tel').value,
+                "checkin": document.getElementById('checkin').value,
+                "checkout": document.getElementById('checkout').value,
+                "location": document.getElementById('location').value,
+                "guests": document.getElementById('guests').value,
+                "tent": document.getElementById('tent').value,
+                "tent_size": document.getElementById('tent_size').value
+            };
+            const url = "http://localhost:3000/user";
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json, text/plain, /',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((r) => { return r.json() })
+                .then((res) => {
+                    console.log(res);
+                    body_load();
+                })
+        }
+
+        function item_dele(uid) {
+            var x = confirm("Sure?");
+            if (x) {
+                const url = "http://localhost:3000/user/" + uid;
+                fetch(url, {
+                    method: "DELETE"
+                }).then((r) => { return r.json() })
+                    .then((res) => {
+                        console.log(res);
+                        body_load();
+                    })
+            }
+        }
+
+        function item_edit(uid) {
+            alert(uid)
+            const url = "http://localhost:3000/user/" + uid;
+            fetch(url, {
+                method: "GET"
+            }).then((r) => {
+                return r.json();
+            }).then((res) => {
+                //alert(JSON.stringify(res));
+                var user_id = document.getElementById('uid');
+                var name = document.getElementById('name');
+                var email = document.getElementById('email');
+                var tel = document.getElementById('tel');
+                var checkin = document.getElementById('checkin');
+                var checkout = document.getElementById('checkout');
+                var location = document.getElementById('location');
+                var guests = document.getElementById('guests');
+                var tent = document.getElementById('tent');
+                var tent_size = document.getElementById('tent_size');
+                user_id.value = res.id;
+                name.value = res.name;
+                email.value = res.email;
+                tel.value = res.tel;
+                checkin.value = res.checkin;
+                checkout.value = res.checkout;
+                location.value = res.location;
+                guests.value = res.guests;
+                tent.value = res.tent;
+                tent_size.value = res.tent_size;
+
+            })
+        }
+
+        function btn_save_click() {
+            alert("Your Edit Success")
+            var uid = document.getElementById('uid').value;
+            const data = {
+                "name": document.getElementById('name').value,
+                "email": document.getElementById('email').value,
+                "tel": document.getElementById('tel').value,
+                "checkin": document.getElementById('checkin').value,
+                "checkout": document.getElementById('checkout').value,
+                "location": document.getElementById('location').value,
+                "guests": document.getElementById('guests').value,
+                "tent": document.getElementById('tent').value,
+                "tent_size": document.getElementById('tent_size').value
+            };
+            const url = "http://localhost:3000/user/" + uid;
+            console.log(url);
+            fetch(url, {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json, text/plain, /',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((r) => { return r.json() })
+                .then((res) => {
+                    console.log(res);
+                    body_load();
+                })
+
+        }
+    </script>
+
+</head>
+
+<body onload="body_load()">
+    <div class="logo">
+        <img
+            src="https://scontent.furt1-1.fna.fbcdn.net/v/t1.15752-9/322383249_652498603289340_3278787675236745815_n.png?_nc_cat=103&ccb=1-7&_nc_sid=ae9488&_nc_eui2=AeGURrauHUCehntNQb2dNw_NrNzU--XkB_Ws3NT75eQH9U4SL5RVvKNURuvqGhIgopD30P5ulct7aDoLJKtQDnQM&_nc_ohc=VaN-KgXzWlQAX9dYnLp&tn=0NP_07RmxKJtiaKy&_nc_ht=scontent.furt1-1.fna&oh=03_AdQQA-cncA03PVVMR9m6PRC_0UT0yL6dCWOeB1rgCk8CNA&oe=63DDA6FE" style="width: 100px; height: 60px;">
+    </div>
+    <div class="container">
+        <h1>Camp Data</h1>
+        <div>
+            <input type="hidden" id="uid" placeholder="ID number" />
+            <b>
+                <h6>ชื่อ-นามสกุล
+            </b></h6><input type="text" class="form-control" id="name" placeholder="กรุณาป้อนชื่อ-นามสกุล">
+            <b>
+                <h6>Email
+            </b></h6><input type="text" class="form-control" id="email" placeholder="Email">
+            <b>
+                <h6>เบอร์โทรศัทพ์
+            </b></h6><input type="text" class="form-control" id="tel" placeholder="tel">
+            <b>
+                <h6>วันที่เข้าใช้บริการ
+            </b></h6><input type="date" class="form-control" id="checkin" placeholder="checkin">
+            <b>
+                <h6>วันออก
+            </b></h6><input type="date" class="form-control" id="checkout" placeholder="checkout">
+            <b>
+                <h6>สถานที่สนใจ
+            </b></h6><input type="text" class="form-control" id="location" placeholder="location">
+            <b>
+                <h6>จำนวนผู้เข้าพัก
+            </b></h6><input type="text" class="form-control" id="guests" placeholder="ex.Adult 3 ">
+            <b>
+                <h6>จำนวนเต้นท์
+            </b></h6><input type="text" class="form-control" id="tent" placeholder="ex.2">
+            <b>
+                <div>
+                    <h6>ขนาดเต้นท์
+            </b></h6><input type="text" class="form-control" id="tent_size" placeholder="ex.5*5">
+            <br>
+            <!-- Add id to image -->
+            <img id="image" src="https://cf.shopee.co.th/file/68f4b092bf1a6c4570adc4562b313b40" alt="camp image" />
+        </div>
+        <button type="button" onclick="show()" id="btnID">
+            ดูตัวอย่างเต้นท์
+        </button></br>
+        </br><button id="btn_add" class="btn btn-primary" onclick="btn_add_click()"> Booking </button>
+        <button id="btn_save" class="btn btn-success" onclick="btn_save_click()"> Save </button><br>
+        <hr>
+    </div>
+    <script>
+        function show() {
+
+            /* Access image by id and change
+            the display property to block*/
+            document.getElementById('image')
+                .style.display = "block";
+
+            document.getElementById('btnID')
+                .style.display = "none";
+        }
+    </script>
+
+    <div class="container-sm ">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>tel</th>
+                    <th>Check in</th>
+                    <th>Check out</th>
+                    <th>Location</th>
+                    <th>Guests</th>
+                    <th>Tent</th>
+                    <th>Tent Size</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tblData">
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <footer class="contianer">
+        <table class="table table-striped table-dark">
+        </table>
+    </footer>
+    <div class=" contianer-sm d-grid gap-2">
+        <a class="btn btn-danger" type="button" href="index.html
+        ">Back To Home</a>
+    </div>
+
+    </footer>
+
+</body>
+
+</html>
